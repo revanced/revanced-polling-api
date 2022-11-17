@@ -1,6 +1,5 @@
 import os
 import binascii
-from redis import Redis
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse, UJSONResponse
@@ -87,15 +86,6 @@ def get_config() -> Auth.PasetoSettings:
         PasetoSettings: PASETO config
     """
     return Auth.PasetoSettings()
-
-@AuthPASETO.token_in_denylist_loader
-def check_if_token_in_denylist(decrypted_token):
-    redis = Redis(host=os.environ['REDIS_URL'],
-              port=os.environ['REDIS_PORT'],
-              db=config['tokens']['database'],
-              decode_responses=True)
-    
-    return redis.exists(decrypted_token["jti"])
 
 # Setup custom error handlers
 
