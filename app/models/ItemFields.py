@@ -11,11 +11,3 @@ class LogoFields(BaseModel):
     filename: str
     gdrive_direct_url: str
 
-class ItemFields(BaseModel):
-    """Implements the fields for the items.
-    
-    Args:
-        BaseModel (pydantic.BaseModel): BaseModel from pydantic
-    """
-    
-    logos: list[LogoFields]
