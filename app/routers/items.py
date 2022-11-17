@@ -16,10 +16,12 @@ async def logos(request: Request, response: Response) -> dict:
 
     Returns:
         json: list of logos
+            =>  username: {
+                id,
+                filename,
+                gdrive_direct_url
+                }
     """
     
     async with aiofiles.open('app/data/processed.json', 'r') as json_file:
-        data: dict = {}
-        data = json.loads(await json_file.read())
-
-    return data
+        return json.loads(await json_file.read())
