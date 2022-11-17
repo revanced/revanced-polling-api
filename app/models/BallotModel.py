@@ -9,4 +9,4 @@ class BallotModel(BaseModel):
     """
     
     discord_id_hash: str
-    ballot: list[BallotFields]
+    ballot: str

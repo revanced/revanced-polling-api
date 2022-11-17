@@ -29,6 +29,7 @@ import app.models.GeneralErrors as GeneralErrors
 from app.routers import root
 from app.routers import auth
 from app.routers import items
+from app.routers import ping
 
 """Implements an API for our polling app"""
 
@@ -64,6 +65,7 @@ app.add_middleware(SlowAPIMiddleware)
 app.include_router(root.router)
 app.include_router(items.router)
 app.include_router(auth.router)
+app.include_router(ping.router)
 
 # Setup cache
 
