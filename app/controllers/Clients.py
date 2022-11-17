@@ -1,8 +1,4 @@
-from time import sleep
 from redis import asyncio as aioredis
-import uvloop
-
-
 import app.utils.Logger as Logger
 from app.dependencies import load_config
 from app.utils.RedisConnector import RedisConnector

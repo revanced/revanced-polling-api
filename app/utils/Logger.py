@@ -51,28 +51,16 @@ class UserLogger:
         else:
             logger.info(f"[User] REDIS {operation} {key} - OK")
 
-class AnnouncementsLogger:
+class BallotLogger:
     async def log(self, operation: str, result: RedisError | None = None, key: str = "") -> None:
-        """Logs internal cache operations
+        """Logs ballot operations
         
         Args:
             operation (str): Operation name
             key (str): Key used in the operation
         """
         if type(result) is RedisError:
-            logger.error(f"[ANNOUNCEMENT] REDIS {operation} - Failed with error: {result}")
+            logger.error(f"[BALLOT] REDIS {operation} - Failed with error: {result}")
         else:
-            logger.info(f"[ANNOUNCEMENT] REDIS {operation} {key} - OK")
+            logger.info(f"[BALLOT] REDIS {operation} {key} - OK")
 
-class MirrorsLogger:
-    async def log(self, operation: str, result: RedisError | None = None, key: str = "") -> None:
-        """Logs internal cache operations
-        
-        Args:
-            operation (str): Operation name
-            key (str): Key used in the operation
-        """
-        if type(result) is RedisError:
-            logger.error(f"[MIRRORS] REDIS {operation} - Failed with error: {result}")
-        else:
-            logger.info(f"[MIRRORS] REDIS {operation} {key} - OK")
