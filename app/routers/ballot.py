@@ -1,4 +1,3 @@
-from redis import Redis
 from fastapi_paseto_auth import AuthPASETO
 from fastapi import APIRouter, Request, Response, Depends, status, HTTPException
 from app.dependencies import load_config
