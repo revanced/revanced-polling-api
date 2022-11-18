@@ -1,0 +1,34 @@
+---
+version: "3.8"
+
+services:
+  redis:
+    container_name: revanced-releases-api-redis
+    image: redis-stack-server:latest
+    environment:
+      - REDIS_ARGS=--save 60 1 --appendonly yes
+    volumes:
+      - /data/redis/revanced-releases-api:/data
+    networks:
+      - infra
+    restart: always
+  revanced-releases-api:
+    container_name: revanced-releases-api
+    image: ghcr.io/alexandreteles/revanced-releases-api:latest
+    environment:
+      - GITHUB_TOKEN=YOUR_GITHUB_TOKEN
+      - REDIS_URL=revanced-releases-api-redis
+      - REDIS_PORT=6379
+      - HYPERCORN_HOST=0.0.0.0
+      - HYPERCORN_PORT=8000
+      - HYPERCORN_LOG_LEVEL=debug
+      - SENTRY_DSN=YOUR_SENTRY_DSN
+    ports:
+      - 127.0.0.1:7934:8000
+    networks:
+      - infra
+    restart: unless-stopped
+
+networks:
+   infra:
+     external: true
