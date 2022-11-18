@@ -1,6 +1,6 @@
 # ReVanced Polling API
 
-_We do a little polling ඞ_
+We do a little polling ඞ
 
 ![License: AGPLv3](https://img.shields.io/github/license/revanced/revanced-polling-api)
 ![GitHub last commit](https://img.shields.io/github/last-commit/revanced/revanced-polling-api)
@@ -10,7 +10,7 @@ This is a simple API that returns the latest ReVanced releases, patches and cont
 
 ## Usage
 
-The API is available at [https://poll.revanced.app//](https://poll.revanced.app/).
+The API is available at [https://poll.revanced.app//](https://poll.revanced.app/)
 
 You can deploy your own instance by cloning this repository, editing the `docker-compose.yml` file to include your GitHub token and running `docker-compose up` or `docker-compose up --build` if you want to build the image locally instead of pulling from GHCR. Optionally you can run the application without Docker by running `poetry install` and `poetry run ./run.sh`. In this case, you'll also need a redis server and setup the following environment variables on your system.
 
