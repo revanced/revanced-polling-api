@@ -9,4 +9,4 @@ class BallotFields(BaseModel):
     """
     
     cid: str
-    weight: int
+    vote: bool
