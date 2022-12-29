@@ -1,4 +1,5 @@
 import os
+import hmac
 from fastapi_paseto_auth import AuthPASETO
 from fastapi import APIRouter, Request, Response, Depends, status, HTTPException, Header
 from app.dependencies import load_config
@@ -22,7 +23,11 @@ async def auth(request: Request, response: Response, client: ClientModels.Client
         access_token: auth token
     """
     
-    if client.id == os.environ['CLIENT_ID'] and client.secret ==  os.environ['CLIENT_SECRET']:
+    if(
+        hmac.compare_digest(client.id, os.environ['CLIENT_ID']) and
+        hmac.compare_digest(client.secret, os.environ['CLIENT_SECRET'])
+        ):
+        
         authenticated: bool = True
         
         if not authenticated:
