@@ -1,4 +1,3 @@
-from collections import deque
 from pydantic import BaseModel
 
 class BallotFields(BaseModel):

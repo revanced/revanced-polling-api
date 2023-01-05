@@ -10,35 +10,25 @@ class InternalServerError(BaseModel):
     error: str = "Internal Server Error"
     message: str = "An internal server error occurred. Please try again later."
     
-class AnnouncementNotFound(BaseModel):
-    """Implements the response fields for when an item is not found.
+class Conflict(BaseModel):
+    """Implements the response fields for when a conflict occurs.
 
     Args:
         BaseModel (pydantic.BaseModel): BaseModel from pydantic
     """
     
-    error: str = "Not Found"
-    message: str = "No announcement was found."
+    error: str = "Conflict"
+    message: str = "User already voted on this ballot."
     
-class ClientNotFound(BaseModel):
-    """Implements the response fields for when a client is not found.
+class PreconditionFailed(BaseModel):
+    """Implements the response fields for when a precondition fails.
 
     Args:
         BaseModel (pydantic.BaseModel): BaseModel from pydantic
     """
     
-    error: str = "Not Found"
-    message: str = "No client matches the given ID"
-
-class IdNotProvided(BaseModel):
-    """Implements the response fields for when the id is not provided.
-
-    Args:
-        BaseModel (pydantic.BaseModel): BaseModel from pydantic
-    """
-    
-    error: str = "Bad Request"
-    message: str = "Missing client id"
+    error: str = "Precondition Failed"
+    message: str = "User is not eligible to vote on this ballot."
     
 class Unauthorized(BaseModel):
     """Implements the response fields for when the client is unauthorized.
@@ -49,23 +39,4 @@ class Unauthorized(BaseModel):
     
     error: str = "Unauthorized"
     message: str = "The client is unauthorized to access this resource"
-    
-class MirrorNotFoundError(BaseModel):
-    """Implements the response fields for when a mirror is not found.
 
-    Args:
-        BaseModel (pydantic.BaseModel): BaseModel from pydantic
-    """
-    
-    error: str = "Not Found"
-    message: str = "No mirror was found for the organization, repository, and version provided."
-    
-class MirrorAlreadyExistsError(BaseModel):
-    """Implements the response fields for when a mirror already exists.
-
-    Args:
-        BaseModel (pydantic.BaseModel): BaseModel from pydantic
-    """
-    
-    error: str = "Conflict"
-    message: str = "A mirror already exists for the organization, repository, and version provided. Please use the PUT method to update the mirror."

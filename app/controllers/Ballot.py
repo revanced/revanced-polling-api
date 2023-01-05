@@ -8,7 +8,7 @@ config: dict = load_config()
 class Ballot:
     """Implements a ballot for ReVanced Polling API."""
     
-    redis = RedisConnector.connect(config['tokens']['database'])
+    redis = RedisConnector.connect(config['ballots']['database'])
     
     BallotLogger = Logger.BallotLogger()
     
@@ -34,3 +34,24 @@ class Ballot:
             raise e
         
         return stored
+
+    async def exists(self, discord_hashed_id: str):
+        """Check if the ballot exists.
+        
+        Args:
+            discord_hashed_id (str): Discord hashed ID of the voter
+        
+        Returns:
+            bool: True if the ballot exists, False otherwise
+        """
+        
+        exists: bool = False
+        
+        try:
+            if await self.redis.exists(discord_hashed_id):
+                exists = True
+        except aioredis.RedisError as e:
+            await self.BallotLogger.log("BALLOT_EXISTS", e)
+            raise e
+        
+        return exists

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from app.models.BallotFields import BallotFields
 
 class BallotModel(BaseModel):
     """Implements the fields for the ballots.
@@ -7,4 +8,4 @@ class BallotModel(BaseModel):
         BaseModel (pydantic.BaseModel): BaseModel from pydantic
     """
     
-    vote: str
+    votes: list[BallotFields]
