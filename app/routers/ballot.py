@@ -36,7 +36,7 @@ async def cast_ballot(request: Request, response: Response,
         
         stored: bool = await ballot_controller.store(
             Authorize.get_paseto_claims()['discord_hashed_id'],
-            ballot.vote
+            ballot
             )
             
         if stored:
