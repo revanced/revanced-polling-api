@@ -1,4 +1,3 @@
-from collections import deque
 from pydantic import BaseModel
 
 class BallotFields(BaseModel):
@@ -9,4 +8,4 @@ class BallotFields(BaseModel):
     """
     
     cid: str
-    weight: int
+    vote: bool
