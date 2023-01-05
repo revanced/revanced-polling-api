@@ -41,7 +41,7 @@ async def cast_ballot(request: Request, response: Response,
             
         if stored:
             await client.ban_token(Authorize.get_jti())
-            return {"created": stored}
+            return {"cast": stored}
         else:
             raise HTTPException(status_code=500, detail={
                 "error": GeneralErrors.InternalServerError().error,

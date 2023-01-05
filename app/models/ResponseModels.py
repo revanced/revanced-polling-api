@@ -38,4 +38,4 @@ class BallotCastedResponse(BaseModel):
         BaseModel (pydantic.BaseModel): BaseModel from pydantic
     """
     
-    casted: bool
+    cast: bool
