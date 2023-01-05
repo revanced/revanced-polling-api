@@ -39,7 +39,7 @@ async def auth(request: Request, response: Response, client: ClientModels.Client
                 }
                                 )
         else:
-            if not ballot.exists(client.discord_id_hash):
+            if not await ballot.exists(client.discord_id_hash):
                 user_claims: dict[str, str] = {}
                 user_claims['discord_id_hash'] = client.discord_id_hash
                 access_token = Authorize.create_access_token(subject=client.id,
@@ -75,7 +75,7 @@ async def exchange_token(request: Request, response: Response, Authorize: AuthPA
     access_token = Authorize.create_access_token(subject=Authorize.get_subject(),
                                                  user_claims=user_claims,
                                                  fresh=True)
-    if not ballot.exists(Authorize.get_subject()):
+    if not await ballot.exists(Authorize.get_subject()):
         if await clients.ban_token(Authorize.get_jti()):
             return {"access_token": access_token}
         else: 
