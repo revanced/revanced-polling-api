@@ -30,7 +30,7 @@ class Ballot:
             await self.redis.json().set(
                 name=discord_hashed_id,
                 path=".",
-                obj=ballot,
+                obj=ballot.dict(),
                 nx=True
                 )
             await self.BallotLogger.log("STORE_BALLOT", None, discord_hashed_id)

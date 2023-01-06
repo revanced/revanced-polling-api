@@ -8,6 +8,7 @@ from app.controllers.Ballot import Ballot
 import app.models.ClientModels as ClientModels
 import app.models.GeneralErrors as GeneralErrors
 import app.models.ResponseModels as ResponseModels
+from loguru import logger
 
 router = APIRouter(
     prefix="/auth",
@@ -59,7 +60,7 @@ async def auth(request: Request, response: Response, client: ClientModels.Client
             }
                             )
 
-@router.put("/exchange", response_model=ResponseModels.ClientAuthTokenResponse, status_code=status.HTTP_200_OK)
+@router.post("/exchange", response_model=ResponseModels.ClientAuthTokenResponse, status_code=status.HTTP_200_OK)
 async def exchange_token(request: Request, response: Response, Authorize: AuthPASETO = Depends(), Authorization: str = Header(None)) -> dict:
     """Exchange a token for a new one.
     
@@ -70,13 +71,18 @@ async def exchange_token(request: Request, response: Response, Authorize: AuthPA
     Authorize.paseto_required()
 
     user_claims: dict[str, str | bool] = {}
-    user_claims['discord_id_hash'] = Authorize.get_user_claims()['discord_id_hash']
-    user_claims['is_exchange_token'] = True
-    access_token = Authorize.create_access_token(subject=Authorize.get_subject(),
-                                                 user_claims=user_claims,
-                                                 fresh=True)
-    if not await ballot.exists(Authorize.get_subject()):
+    
+    user_id = Authorize.get_token_payload()['discord_id_hash']
+    
+    if not await ballot.exists(user_id):
         if await clients.ban_token(Authorize.get_jti()):
+            user_claims['discord_id_hash'] = user_id
+            user_claims['is_exchange_token'] = True
+            access_token = Authorize.create_access_token(
+                subject=Authorize.get_subject(),
+                user_claims=user_claims
+                )
+            
             return {"access_token": access_token}
         else: 
             raise HTTPException(status_code=500, detail={

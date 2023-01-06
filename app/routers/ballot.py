@@ -28,16 +28,14 @@ async def cast_ballot(request: Request, response: Response,
     Authorize.paseto_required()
     
     
-    if (Authorize.get_paseto_claims()['is_exchange_token'] and
-        not client.voted(
-            Authorize.get_jti(),
-            Authorize.get_paseto_claims()['discord_hashed_id']
+    if (Authorize.get_token_payload()['is_exchange_token'] and
+        not await ballot_controller.exists(
+            Authorize.get_token_payload()['discord_id_hash']
             )):
         
         stored: bool = await ballot_controller.store(
-            Authorize.get_paseto_claims()['discord_hashed_id'],
-            ballot
-            )
+            Authorize.get_token_payload()['discord_id_hash'],
+            ballot)
             
         if stored:
             await client.ban_token(Authorize.get_jti())

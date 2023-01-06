@@ -64,25 +64,3 @@ class Clients:
         
         return banned
 
-    async def voted(self, token: str, discord_id: str) -> bool:
-        """Check if the user already voted
-
-        Args:
-            token (str): Token to check
-
-        Returns:
-            bool: True if the user voted, False otherwise
-        """
-        
-        voted: bool = False
-        
-        try:
-            if (await self.is_token_banned(token) or
-                await self.ballot.exists(discord_id)):
-                
-                voted = True
-        except aioredis.RedisError as e:
-            await self.UserLogger.log("AUTH_CHECKS", e)
-            raise e
-        
-        return voted
