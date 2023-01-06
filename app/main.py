@@ -4,6 +4,7 @@ from redis import Redis
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse, UJSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
@@ -37,6 +38,13 @@ from app.routers import ballot
 
 config: dict = load_config()
 
+# Setup CORS config
+
+allow_origins: list[str] = ['*']
+allow_methods: list[str] = ['*']
+allow_headers: list[str] = ['*']
+allow_credentials: bool = True
+
 # Create FastAPI instance
 
 app = FastAPI(title=config['docs']['title'],
@@ -47,6 +55,16 @@ app = FastAPI(title=config['docs']['title'],
                             },
               default_response_class=UJSONResponse
               )
+
+# Hook up CORS middleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allow_origins,
+    allow_methods=allow_methods,
+    allow_headers=allow_headers,
+    allow_credentials=allow_credentials,
+)
 
 # Hook up rate limiter
 limiter = Limiter(key_func=get_remote_address,
